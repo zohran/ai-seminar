@@ -9,6 +9,18 @@ interface QuestionFormProps {
   isLoading?: boolean;
 }
 
+/**
+ * Controlled form component for submitting a question with title, content, and urgency.
+ *
+ * Validates title and question are non-empty and that an urgency is selected. On successful
+ * validation calls `onSubmit` with a `CreateQuestionDto` and, if that promise resolves,
+ * resets the form to its initial state. While `isLoading` is true all inputs and the submit
+ * button are disabled and the button shows a loading state.
+ *
+ * @param onSubmit - Async callback invoked with the collected `CreateQuestionDto` when the form is submitted and validation passes.
+ * @param isLoading - When true, disables inputs and shows a submitting/loading state (default: false).
+ * @returns The rendered question submission form as JSX.
+ */
 export function QuestionForm({ onSubmit, isLoading = false }: QuestionFormProps) {
   const [formData, setFormData] = useState<CreateQuestionDto>({
     title: '',
