@@ -6,6 +6,16 @@ import { QuestionForm } from '@/components/question-form';
 import { CreateQuestionDto } from '@/types/question';
 import { CheckCircle, AlertCircle } from 'lucide-react';
 
+/**
+ * Client-side React page component that renders the AI Seminar Question Management UI.
+ *
+ * Renders navigation, a header, a question submission form, and a contextual success/error
+ * banner. Handles form submissions by POSTing the provided CreateQuestionDto to `/api/questions`,
+ * showing a success or error message based on the API response, and managing a loading state
+ * while the request is in progress.
+ *
+ * @returns The page's JSX element.
+ */
 export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);

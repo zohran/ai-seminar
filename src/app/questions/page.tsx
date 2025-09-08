@@ -5,6 +5,19 @@ import { Navigation } from '@/components/navigation';
 import { Question, URGENCY_LABELS, URGENCY_COLORS } from '@/types/question';
 import { Loader2, AlertCircle, Calendar, Clock, Trash2, Edit } from 'lucide-react';
 
+/**
+ * Client-side React page that lists, edits, and deletes submitted questions.
+ *
+ * Fetches questions from /api/questions on mount, normalizes `createdAt`/`updatedAt` to Date objects,
+ * and renders per-question cards with urgency badges, created/updated timestamps, and actions.
+ * Supports:
+ * - Loading, error, and empty states with retry.
+ * - Inline editing (title, question, urgency) which sends PUT /api/questions/:id and updates local state on success.
+ * - Deletion with user confirmation which sends DELETE /api/questions/:id and removes the item from local state on success.
+ * - Date formatting using `Intl.DateTimeFormat('en-US', ...)`.
+ *
+ * @returns The rendered Questions page component (JSX.Element).
+ */
 export default function QuestionsPage() {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [isLoading, setIsLoading] = useState(true);

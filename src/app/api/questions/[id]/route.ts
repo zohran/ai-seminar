@@ -17,7 +17,19 @@ if (!URLPolyfill.canParse) {
   };
 }
 
-// GET /api/questions/[id] - Get a specific question
+/**
+ * HTTP GET handler that returns a question by its id.
+ *
+ * Looks up the question id from `context.params`, returns a 200 JSON response
+ * with `{ success: true, data }` when found, a 404 JSON error when the question
+ * does not exist, or a 500 JSON error on server failure.
+ *
+ * @param context - Route context whose `params` resolves to an object containing `id`.
+ * @returns A NextResponse with a JSON body:
+ *   - 200: `{ success: true, data: question }`
+ *   - 404: `{ success: false, error: "Question not found" }`
+ *   - 500: `{ success: false, error: "Failed to retrieve question" }`
+ */
 export async function GET(
   request: NextRequest,
   context: { params: Promise<{ id: string }> }
@@ -52,7 +64,24 @@ export async function GET(
   }
 }
 
-// PUT /api/questions/[id] - Update a specific question
+/**
+ * Updates a question by ID using fields from the request JSON body.
+ *
+ * Accepts a JSON payload with any of the fields:
+ * - `title` (string, trimmed) — new title
+ * - `question` (string, trimmed) — new question text
+ * - `urgency` (string) — must be one of `"low"`, `"medium"`, or `"high"` if provided
+ *
+ * Returns:
+ * - 200 with `{ success: true, data: updatedQuestion }` on success
+ * - 400 with `{ success: false, error: "Urgency must be low, medium, or high" }` when `urgency` is invalid
+ * - 404 with `{ success: false, error: "Question not found" }` if no question exists for the given id
+ * - 500 with `{ success: false, error: "Failed to update question" }` on server errors
+ *
+ * The function trims `title` and `question` values before updating. The `id` is read from route params.
+ *
+ * @returns A NextResponse containing a JSON object with `success` and either `data`, `message`, or `error`.
+ */
 export async function PUT(
   request: NextRequest,
   context: { params: Promise<{ id: string }> }
@@ -104,7 +133,13 @@ export async function PUT(
   }
 }
 
-// DELETE /api/questions/[id] - Delete a specific question
+/**
+ * Deletes a question by ID.
+ *
+ * Attempts to remove the question identified by `context.params.id`. Returns a 200 JSON response on successful deletion, a 404 JSON response if the question doesn't exist, or a 500 JSON response on server error.
+ *
+ * @param context - contains a Promise `params` that resolves to an object with the `id` of the question to delete
+ */
 export async function DELETE(
   request: NextRequest,
   context: { params: Promise<{ id: string }> }

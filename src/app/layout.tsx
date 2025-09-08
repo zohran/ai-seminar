@@ -18,6 +18,15 @@ export const metadata: Metadata = {
   description: "Manage and track questions with urgency levels",
 };
 
+/**
+ * Root layout for the application that sets global fonts, language, and theme provider.
+ *
+ * Renders the HTML document root with lang="en" and suppresses hydration warnings. Applies
+ * Geist Sans and Geist Mono font CSS variables and the `antialiased` body class, then wraps
+ * the page content in the ThemeProvider configured to use the system theme and class-based theming.
+ *
+ * @param children - The page content to render inside the themed layout.
+ */
 export default function RootLayout({
   children,
 }: Readonly<{

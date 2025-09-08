@@ -18,7 +18,17 @@ if (!URLPolyfill.canParse) {
   };
 }
 
-// Helper function to validate question data
+/**
+ * Validates a CreateQuestionDto for required fields and allowed urgency values.
+ *
+ * Returns an error message if validation fails, or `null` when the input is valid.
+ *
+ * Required fields: `title`, `question`, `urgency`.
+ * Allowed urgencies: `"low"`, `"medium"`, `"high"`.
+ *
+ * @param body - The question payload to validate
+ * @returns A human-readable validation error string, or `null` if `body` is valid
+ */
 function validateQuestionData(body: CreateQuestionDto): string | null {
   const missingFields = [];
   if (!body.title) missingFields.push("title");
@@ -37,7 +47,14 @@ function validateQuestionData(body: CreateQuestionDto): string | null {
   return null;
 }
 
-// GET /api/questions - Retrieve all questions
+/**
+ * Retrieve all stored questions and return them as a JSON response.
+ *
+ * On success returns a NextResponse with body `{ success: true, data: questions }`.
+ * On failure returns a 500 response with `{ success: false, error: "Failed to retrieve questions" }`.
+ *
+ * @returns A NextResponse containing the JSON payload described above.
+ */
 export async function GET() {
   try {
     const questions = await readQuestions();
@@ -57,7 +74,19 @@ export async function GET() {
   }
 }
 
-// POST /api/questions - Create a new question
+/**
+ * Create a new question from a JSON request body.
+ *
+ * Expects the request body to match CreateQuestionDto. Validates required fields
+ * (title, question, urgency) and allowed urgencies ("low" | "medium" | "high").
+ * On success creates the question via addQuestion and returns the created record.
+ *
+ * @param request - NextRequest whose JSON body conforms to CreateQuestionDto
+ * @returns A NextResponse JSON object:
+ *  - 201 with { success: true, data } on success
+ *  - 400 with { success: false, error } when validation fails
+ *  - 500 with { success: false, error } on internal error
+ */
 export async function POST(request: NextRequest) {
   try {
     const body: CreateQuestionDto = await request.json();

@@ -5,6 +5,16 @@ import { usePathname } from 'next/navigation';
 import { ThemeToggle } from './theme-toggle';
 import { HelpCircle, List, Plus } from 'lucide-react';
 
+/**
+ * Top navigation bar for the app with brand, route-aware links, and a theme toggle.
+ *
+ * Renders a horizontal nav containing a brand link ("AI Seminar"), two navigation links
+ * ("Submit Question" and "View Questions") with icons, and a ThemeToggle on the right.
+ * The active link is determined by comparing the current pathname to each item's `href`
+ * using a strict equality check (`pathname === href`) and receives active styling.
+ *
+ * @returns The navigation JSX element.
+ */
 export function Navigation() {
   const pathname = usePathname();
 
