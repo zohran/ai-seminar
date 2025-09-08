@@ -29,7 +29,7 @@ export async function readQuestions(): Promise<Question[]> {
       id: string;
       title: string;
       question: string;
-      urgency: Question['urgency'];
+      urgency: Question["urgency"];
       createdAt: string | Date;
       updatedAt: string | Date;
       [key: string]: unknown;
